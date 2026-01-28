@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import axios from 'axios';
 
+// Environment variables
+const API_ACADEMY_URL = import.meta.env.VITE_API_ACADEMY_URL || import.meta.env.VITE_API_BASE_URL;
+const API_ACADEMY_CLASSES = import.meta.env.VITE_API_ACADEMY_CLASSES || '/api/academy/classes';
+
 const Classes = () => {
   const [classes, setClasses] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -19,7 +23,7 @@ const Classes = () => {
 
   const fetchClasses = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/academy/classes');
+      const res = await axios.get(`${API_ACADEMY_URL}${API_ACADEMY_CLASSES}`);
       setClasses(res.data);
     } catch (error) {
       console.error('Error fetching classes:', error);
@@ -29,7 +33,7 @@ const Classes = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/academy/classes', formData);
+      await axios.post(`${API_ACADEMY_URL}${API_ACADEMY_CLASSES}`, formData);
       setShowForm(false);
       setFormData({ name: '', description: '', level: 'Beginner', schedule: '', price: 0 });
       fetchClasses();

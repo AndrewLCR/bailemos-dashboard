@@ -12,7 +12,7 @@ import AdminAnalytics from './pages/AdminAnalytics';
 
 // Protected Route Component
 const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem(import.meta.env.VITE_STORAGE_TOKEN_KEY || 'token');
   return token ? children : <Navigate to="/login" />;
 };
 

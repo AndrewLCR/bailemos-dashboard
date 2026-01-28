@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import axios from 'axios';
 
+// Environment variables
+const API_ESTABLISHMENT_URL = import.meta.env.VITE_API_ESTABLISHMENT_URL || import.meta.env.VITE_API_BASE_URL;
+const API_ESTABLISHMENT_PROMOTIONS = import.meta.env.VITE_API_ESTABLISHMENT_PROMOTIONS || '/api/establishment/promotions';
+
 const Promotions = () => {
   const [promotions, setPromotions] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -19,7 +23,7 @@ const Promotions = () => {
 
   const fetchPromotions = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/establishment/promotions');
+      const res = await axios.get(`${API_ESTABLISHMENT_URL}${API_ESTABLISHMENT_PROMOTIONS}`);
       setPromotions(res.data);
     } catch (error) {
       console.error('Error fetching promotions:', error);
@@ -29,7 +33,7 @@ const Promotions = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/establishment/promotions', formData);
+      await axios.post(`${API_ESTABLISHMENT_URL}${API_ESTABLISHMENT_PROMOTIONS}`, formData);
       setShowForm(false);
       setFormData({ title: '', description: '', discountType: 'percentage', value: 0, validUntil: '' });
       fetchPromotions();

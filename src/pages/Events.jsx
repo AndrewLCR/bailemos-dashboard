@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
 import axios from 'axios';
 
+// Environment variables
+const API_ESTABLISHMENT_URL = import.meta.env.VITE_API_ESTABLISHMENT_URL || import.meta.env.VITE_API_BASE_URL;
+const API_ESTABLISHMENT_EVENTS = import.meta.env.VITE_API_ESTABLISHMENT_EVENTS || '/api/establishment/events';
+
 const Events = () => {
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -18,7 +22,7 @@ const Events = () => {
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/establishment/events');
+      const res = await axios.get(`${API_ESTABLISHMENT_URL}${API_ESTABLISHMENT_EVENTS}`);
       setEvents(res.data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -28,7 +32,7 @@ const Events = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/establishment/events', formData);
+      await axios.post(`${API_ESTABLISHMENT_URL}${API_ESTABLISHMENT_EVENTS}`, formData);
       setShowForm(false);
       setFormData({ name: '', description: '', date: '', coverCharge: 0 });
       fetchEvents();

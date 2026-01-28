@@ -15,7 +15,9 @@ const Students = () => {
   const fetchStudents = async () => {
     try {
       // Get the academy's details which includes the students array
-      const res = await axios.get(`http://localhost:5000/api/auth/user/${user._id}`);
+      const API_AUTH_URL = import.meta.env.VITE_API_AUTH_URL || import.meta.env.VITE_API_BASE_URL;
+      const API_AUTH_USER = import.meta.env.VITE_API_AUTH_USER || '/api/auth/user';
+      const res = await axios.get(`${API_AUTH_URL}${API_AUTH_USER}/${user._id}`);
       
       // In a real implementation, this would be a dedicated endpoint
       // For now, we'll show a placeholder since the backend doesn't have this endpoint yet
