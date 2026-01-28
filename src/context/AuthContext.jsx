@@ -5,8 +5,8 @@ const AuthContext = createContext();
 
 // Environment variables
 const API_AUTH_URL = import.meta.env.VITE_API_AUTH_URL || import.meta.env.VITE_API_BASE_URL;
-const API_AUTH_LOGIN = import.meta.env.VITE_API_AUTH_LOGIN || '/api/auth/login';
-const API_AUTH_REGISTER = import.meta.env.VITE_API_AUTH_REGISTER || '/api/auth/register';
+const API_AUTH_LOGIN = import.meta.env.VITE_API_AUTH_LOGIN || 'https://bailemos-api.vercel.app/api/auth/login';
+const API_AUTH_REGISTER = import.meta.env.VITE_API_AUTH_REGISTER || 'https://bailemos-api.vercel.app/api/auth/register';
 const STORAGE_TOKEN_KEY = import.meta.env.VITE_STORAGE_TOKEN_KEY || 'token';
 const STORAGE_USER_KEY = import.meta.env.VITE_STORAGE_USER_KEY || 'user';
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try { 
-      const res = await axios.post(`${API_AUTH_URL}${API_AUTH_LOGIN}`, { email, password });
+      const res = await axios.post(API_AUTH_LOGIN, { email, password });
       localStorage.setItem(STORAGE_TOKEN_KEY, res.data.token);
       localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(res.data));
       setUser(res.data);
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const res = await axios.post(`${API_AUTH_URL}${API_AUTH_REGISTER}`, userData);
+      const res = await axios.post(API_AUTH_REGISTER, userData);
       localStorage.setItem(STORAGE_TOKEN_KEY, res.data.token);
       localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(res.data));
       setUser(res.data);
