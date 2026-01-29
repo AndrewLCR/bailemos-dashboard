@@ -1,34 +1,35 @@
 import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AuthContext from '../context/AuthContext';
 
 const Sidebar = () => {
   const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
 
-  // Navigation items based on role
   const getNavItems = () => {
     const items = [
-      { path: '/dashboard', label: 'Home', icon: '🏠', roles: ['academy', 'establishment', 'admin'] }
+      { path: '/dashboard', labelKey: 'nav.home', icon: '🏠', roles: ['academy', 'establishment', 'admin'] }
     ];
 
     if (user?.role === 'academy') {
       items.push(
-        { path: '/dashboard/classes', label: 'Classes', icon: '💃', roles: ['academy'] },
-        { path: '/dashboard/students', label: 'Students', icon: '👥', roles: ['academy'] }
+        { path: '/dashboard/classes', labelKey: 'nav.classes', icon: '💃', roles: ['academy'] },
+        { path: '/dashboard/students', labelKey: 'nav.students', icon: '👥', roles: ['academy'] }
       );
     }
 
     if (user?.role === 'establishment') {
       items.push(
-        { path: '/dashboard/events', label: 'Events', icon: '🎉', roles: ['establishment'] },
-        { path: '/dashboard/promotions', label: 'Promotions', icon: '🎁', roles: ['establishment'] }
+        { path: '/dashboard/events', labelKey: 'nav.events', icon: '🎉', roles: ['establishment'] },
+        { path: '/dashboard/promotions', labelKey: 'nav.promotions', icon: '🎁', roles: ['establishment'] }
       );
     }
 
     if (user?.role === 'admin') {
       items.push(
-        { path: '/dashboard/users', label: 'Users', icon: '👤', roles: ['admin'] },
-        { path: '/dashboard/analytics', label: 'Analytics', icon: '📊', roles: ['admin'] }
+        { path: '/dashboard/users', labelKey: 'nav.users', icon: '👤', roles: ['admin'] },
+        { path: '/dashboard/analytics', labelKey: 'nav.analytics', icon: '📊', roles: ['admin'] }
       );
     }
 
@@ -40,7 +41,7 @@ const Sidebar = () => {
   return (
     <aside className="w-64 bg-gray-800 border-r border-gray-700 min-h-screen">
       <div className="p-6">
-        <h2 className="text-xl font-bold text-white mb-6">Navigation</h2>
+        <h2 className="text-xl font-bold text-white mb-6">{t('nav.navigation')}</h2>
         <nav className="space-y-2">
           {navItems.map((item) => (
             <NavLink
@@ -55,7 +56,7 @@ const Sidebar = () => {
               }
             >
               <span className="text-xl">{item.icon}</span>
-              <span className="font-medium">{item.label}</span>
+              <span className="font-medium">{t(item.labelKey)}</span>
             </NavLink>
           ))}
         </nav>

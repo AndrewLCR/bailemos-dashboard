@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from '../components/DashboardLayout';
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ const API_ESTABLISHMENT_URL = import.meta.env.VITE_API_ESTABLISHMENT_URL || impo
 const API_ESTABLISHMENT_PROMOTIONS = import.meta.env.VITE_API_ESTABLISHMENT_PROMOTIONS || '/api/establishment/promotions';
 
 const Promotions = () => {
+  const { t } = useTranslation();
   const [promotions, setPromotions] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -39,7 +41,7 @@ const Promotions = () => {
       fetchPromotions();
     } catch (error) {
       console.error('Error creating promotion:', error);
-      alert(error.response?.data?.message || 'Failed to create promotion');
+      alert(error.response?.data?.message || t('promotions.failedCreate'));
     }
   };
 
@@ -51,22 +53,21 @@ const Promotions = () => {
     <DashboardLayout>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-white">Promotions Management</h1>
+          <h1 className="text-3xl font-bold text-white">{t('promotions.management')}</h1>
           <button
             onClick={() => setShowForm(!showForm)}
             className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
           >
-            {showForm ? 'Cancel' : '+ Create Promotion'}
+            {showForm ? t('common.cancel') : `+ ${t('promotions.createPromotion')}`}
           </button>
         </div>
 
-        {/* Create Form */}
         {showForm && (
           <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
-            <h2 className="text-xl font-bold text-white mb-4">Create New Promotion</h2>
+            <h2 className="text-xl font-bold text-white mb-4">{t('promotions.createNewPromotion')}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Title</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">{t('common.title')}</label>
                 <input
                   type="text"
                   name="title"
@@ -77,7 +78,7 @@ const Promotions = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">{t('common.description')}</label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -89,21 +90,21 @@ const Promotions = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Discount Type</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">{t('promotions.discountType')}</label>
                   <select
                     name="discountType"
                     value={formData.discountType}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
                   >
-                    <option value="percentage">Percentage Off</option>
-                    <option value="fixed">Fixed Amount Off</option>
-                    <option value="free_pass">Free Pass</option>
+                    <option value="percentage">{t('promotions.percentageOff')}</option>
+                    <option value="fixed">{t('promotions.fixedAmountOff')}</option>
+                    <option value="free_pass">{t('promotions.freePass')}</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-400 mb-2">
-                    Value {formData.discountType === 'percentage' ? '(%)' : '($)'}
+                    {t('common.value')} {formData.discountType === 'percentage' ? '(%)' : '($)'}
                   </label>
                   <input
                     type="number"
@@ -117,7 +118,7 @@ const Promotions = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Valid Until</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">{t('promotions.validUntil')}</label>
                 <input
                   type="datetime-local"
                   name="validUntil"
@@ -131,7 +132,7 @@ const Promotions = () => {
                 type="submit"
                 className="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
               >
-                Create Promotion (with QR Code)
+                {t('promotions.createWithQR')}
               </button>
             </form>
           </div>
@@ -153,7 +154,7 @@ const Promotions = () => {
                     </div>
                     <div className="flex items-center text-gray-300 text-sm">
                       <span className="mr-2">⏰</span>
-                      <span>Valid until: {new Date(promo.validUntil).toLocaleDateString()}</span>
+                      <span>{t('promotions.validUntilLabel')}: {new Date(promo.validUntil).toLocaleDateString()}</span>
                     </div>
                   </div>
                 </div>
@@ -169,7 +170,7 @@ const Promotions = () => {
 
         {promotions.length === 0 && !showForm && (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">No promotions yet. Create your first promotion!</p>
+            <p className="text-gray-400 text-lg">{t('promotions.noPromotionsYet')}</p>
           </div>
         )}
       </div>

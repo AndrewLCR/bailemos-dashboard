@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
-// Environment variables
-const API_AUTH_URL = import.meta.env.VITE_API_AUTH_URL || import.meta.env.VITE_API_BASE_URL;
-const API_AUTH_LOGIN = import.meta.env.VITE_API_AUTH_LOGIN || 'https://bailemos-api.vercel.app/api/auth/login';
-const API_AUTH_REGISTER = import.meta.env.VITE_API_AUTH_REGISTER || 'https://bailemos-api.vercel.app/api/auth/register';
+// Environment variables - base URL with paths concatenated
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://bailemos-api.vercel.app').replace(/\/$/, '');
+const API_AUTH_LOGIN = `${API_BASE_URL}/api/auth/login`;
+const API_AUTH_REGISTER = `${API_BASE_URL}/api/auth/register`;
 const STORAGE_TOKEN_KEY = import.meta.env.VITE_STORAGE_TOKEN_KEY || 'token';
 const STORAGE_USER_KEY = import.meta.env.VITE_STORAGE_USER_KEY || 'user';
 

@@ -1,10 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from '../components/DashboardLayout';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
 const Students = () => {
   const { user } = useContext(AuthContext);
+  const { t } = useTranslation();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,15 +37,15 @@ const Students = () => {
     <DashboardLayout>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-white">Enrolled Students</h1>
+          <h1 className="text-3xl font-bold text-white">{t('students.title')}</h1>
           <div className="px-6 py-3 bg-purple-600 text-white rounded-lg font-medium">
-            Total: {students.length}
+            {t('common.total')}: {students.length}
           </div>
         </div>
 
         {loading ? (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">Loading students...</p>
+            <p className="text-gray-400 text-lg">{t('students.loading')}</p>
           </div>
         ) : students.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -65,7 +67,7 @@ const Students = () => {
                   </div>
                   <div className="flex items-center text-gray-300 text-sm">
                     <span className="text-lg mr-2">📅</span>
-                    <span>Enrolled: {new Date(student.createdAt).toLocaleDateString()}</span>
+                    <span>{t('students.enrolled')}: {new Date(student.createdAt).toLocaleDateString()}</span>
                   </div>
                 </div>
               </div>
@@ -74,13 +76,13 @@ const Students = () => {
         ) : (
           <div className="bg-gray-800 rounded-lg p-12 border border-gray-700 text-center">
             <div className="text-6xl mb-4">👥</div>
-            <h2 className="text-2xl font-bold text-white mb-2">No Students Yet</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">{t('students.noStudentsYet')}</h2>
             <p className="text-gray-400 mb-6">
-              Students will appear here once they book your classes through the mobile app.
+              {t('students.studentsWillAppear')}
             </p>
             <div className="bg-gray-700 rounded-lg p-4 max-w-md mx-auto">
               <p className="text-gray-300 text-sm">
-                💡 <strong>Tip:</strong> Make sure your classes are published and visible to attract dancers!
+                💡 <strong>{t('students.tip')}</strong> {t('students.tipText')}
               </p>
             </div>
           </div>
@@ -92,7 +94,7 @@ const Students = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Total Students</p>
+                  <p className="text-gray-400 text-sm">{t('students.totalStudents')}</p>
                   <h3 className="text-3xl font-bold text-white mt-1">{students.length}</h3>
                 </div>
                 <div className="text-4xl">👥</div>
@@ -102,7 +104,7 @@ const Students = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Active Bookings</p>
+                  <p className="text-gray-400 text-sm">{t('students.activeBookings')}</p>
                   <h3 className="text-3xl font-bold text-white mt-1">-</h3>
                 </div>
                 <div className="text-4xl">📚</div>
@@ -112,7 +114,7 @@ const Students = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-gray-400 text-sm">Monthly Revenue</p>
+                  <p className="text-gray-400 text-sm">{t('students.monthlyRevenue')}</p>
                   <h3 className="text-3xl font-bold text-white mt-1">$-</h3>
                 </div>
                 <div className="text-4xl">💰</div>

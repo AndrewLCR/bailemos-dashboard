@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from '../components/DashboardLayout';
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ const API_ESTABLISHMENT_URL = import.meta.env.VITE_API_ESTABLISHMENT_URL || impo
 const API_ESTABLISHMENT_EVENTS = import.meta.env.VITE_API_ESTABLISHMENT_EVENTS || '/api/establishment/events';
 
 const Events = () => {
+  const { t } = useTranslation();
   const [events, setEvents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,7 +40,7 @@ const Events = () => {
       fetchEvents();
     } catch (error) {
       console.error('Error creating event:', error);
-      alert(error.response?.data?.message || 'Failed to create event');
+      alert(error.response?.data?.message || t('events.failedCreate'));
     }
   };
 
@@ -50,22 +52,21 @@ const Events = () => {
     <DashboardLayout>
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-white">Events Management</h1>
+          <h1 className="text-3xl font-bold text-white">{t('events.management')}</h1>
           <button
             onClick={() => setShowForm(!showForm)}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
           >
-            {showForm ? 'Cancel' : '+ Create Event'}
+            {showForm ? t('common.cancel') : `+ ${t('events.createEvent')}`}
           </button>
         </div>
 
-        {/* Create Form */}
         {showForm && (
           <div className="bg-gray-800 rounded-lg p-6 mb-6 border border-gray-700">
-            <h2 className="text-xl font-bold text-white mb-4">Create New Event</h2>
+            <h2 className="text-xl font-bold text-white mb-4">{t('events.createNewEvent')}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Event Name</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">{t('events.eventName')}</label>
                 <input
                   type="text"
                   name="name"
@@ -76,7 +77,7 @@ const Events = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                <label className="block text-sm font-medium text-gray-400 mb-2">{t('common.description')}</label>
                 <textarea
                   name="description"
                   value={formData.description}
@@ -87,7 +88,7 @@ const Events = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Date</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">{t('common.date')}</label>
                   <input
                     type="datetime-local"
                     name="date"
@@ -98,7 +99,7 @@ const Events = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-400 mb-2">Cover Charge ($)</label>
+                  <label className="block text-sm font-medium text-gray-400 mb-2">{t('events.coverCharge')}</label>
                   <input
                     type="number"
                     name="coverCharge"
@@ -113,7 +114,7 @@ const Events = () => {
                 type="submit"
                 className="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
               >
-                Create Event
+                {t('events.createEventButton')}
               </button>
             </form>
           </div>
@@ -141,7 +142,7 @@ const Events = () => {
 
         {events.length === 0 && !showForm && (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">No events yet. Create your first event!</p>
+            <p className="text-gray-400 text-lg">{t('events.noEventsYet')}</p>
           </div>
         )}
       </div>
