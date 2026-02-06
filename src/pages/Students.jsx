@@ -4,32 +4,60 @@ import DashboardLayout from '../components/DashboardLayout';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://bailemos-api.vercel.app').replace(/\/$/, '');
+
+const toDisplayValue = (val) => {
+  if (val == null || val === '') return '-';
+  if (typeof val === 'object' && 'name' in val) return val.name;
+  if (typeof val === 'object' && 'title' in val) return val.title;
+  if (typeof val === 'string' || typeof val === 'number') return String(val);
+  return '-';
+};
+
 const Students = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const academyId = user?.academyId || user?.academy?._id || user?._id;
+
   useEffect(() => {
     fetchStudents();
-  }, []);
+  }, [academyId]);
 
   const fetchStudents = async () => {
-    try {
-      // Get the academy's details which includes the students array
-      const API_AUTH_URL = import.meta.env.VITE_API_AUTH_URL || import.meta.env.VITE_API_BASE_URL;
-      const API_AUTH_USER = import.meta.env.VITE_API_AUTH_USER || '/api/auth/user';
-      const res = await axios.get(`${API_AUTH_URL}${API_AUTH_USER}/${user._id}`);
-      
-      // In a real implementation, this would be a dedicated endpoint
-      // For now, we'll show a placeholder since the backend doesn't have this endpoint yet
-      setStudents(res.data?.students || []);
+    if (!academyId) {
       setLoading(false);
+      setStudents([]);
+      return;
+    }
+    try {
+      const res = await axios.get(`${API_BASE_URL}/api/academy/${academyId}/enrollments`, {
+        params: { status: 'approved' },
+      });
+      const data = res.data;
+      const list = Array.isArray(data) ? data : (data?.enrollments ?? data?.data ?? []);
+      const enrollments = Array.isArray(list) ? list : [];
+      const mapped = enrollments.map((enrollment) => {
+        const applicant = enrollment.applicant || enrollment.user || enrollment;
+        const fullNameRaw = enrollment.fullName ?? applicant?.fullName;
+        const name = toDisplayValue(fullNameRaw);
+        const email = applicant?.email ?? enrollment.email;
+        return {
+          _id: enrollment._id || enrollment.id,
+          name,
+          email: toDisplayValue(email),
+          role: 'dancer',
+          createdAt: enrollment.createdAt || enrollment.submittedAt || enrollment.approvedAt,
+        };
+      });
+      setStudents(mapped);
     } catch (error) {
       console.error('Error fetching students:', error);
-      setLoading(false);
-      // For demo purposes, show empty state
       setStudents([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,7 +81,7 @@ const Students = () => {
               <div key={student._id} className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-purple-500 transition">
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
-                    {student.name?.charAt(0).toUpperCase()}
+                    {(student.name && String(student.name).charAt(0).toUpperCase()) || '?'}
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">{student.name}</h3>
@@ -67,7 +95,12 @@ const Students = () => {
                   </div>
                   <div className="flex items-center text-gray-300 text-sm">
                     <span className="text-lg mr-2">📅</span>
-                    <span>{t('students.enrolled')}: {new Date(student.createdAt).toLocaleDateString()}</span>
+                    <span>
+                      {t('students.enrolled')}:{' '}
+                      {student.createdAt
+                        ? new Date(student.createdAt).toLocaleDateString()
+                        : '-'}
+                    </span>
                   </div>
                 </div>
               </div>

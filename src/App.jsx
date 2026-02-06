@@ -9,6 +9,11 @@ import Classes from './pages/Classes';
 import Students from './pages/Students';
 import AdminUsers from './pages/AdminUsers';
 import AdminAnalytics from './pages/AdminAnalytics';
+import Enrollments from './pages/Enrollments';
+import EnrollmentDetail from './pages/EnrollmentDetail';
+import ClassBookings from './pages/ClassBookings';
+import SettingsSchedule from './pages/SettingsSchedule';
+import SettingsPrices from './pages/SettingsPrices';
 
 // Protected Route Component
 const PrivateRoute = ({ children }) => {
@@ -57,10 +62,50 @@ function App() {
               } 
             />
             <Route 
+              path="/dashboard/enrollments" 
+              element={
+                <PrivateRoute>
+                  <Enrollments />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/enrollments/:enrollmentId" 
+              element={
+                <PrivateRoute>
+                  <EnrollmentDetail />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/bookings" 
+              element={
+                <PrivateRoute>
+                  <ClassBookings />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
               path="/dashboard/students" 
               element={
                 <PrivateRoute>
                   <Students />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/settings/schedule" 
+              element={
+                <PrivateRoute>
+                  <SettingsSchedule />
+                </PrivateRoute>
+              } 
+            />
+            <Route 
+              path="/dashboard/settings/prices" 
+              element={
+                <PrivateRoute>
+                  <SettingsPrices />
                 </PrivateRoute>
               } 
             />
