@@ -104,7 +104,7 @@ const Promotions = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-400 mb-2">
-                    {t('common.value')} {formData.discountType === 'percentage' ? '(%)' : '($)'}
+                    {t('common.value')} {formData.discountType === 'percentage' ? '(%)' : '(₡)'}
                   </label>
                   <input
                     type="number"
@@ -150,7 +150,7 @@ const Promotions = () => {
                     <div className="flex items-center text-gray-300 text-sm">
                       <span className="mr-2">🎁</span>
                       <span className="capitalize">{promo.discountType.replace('_', ' ')}</span>
-                      {promo.value && `: ${promo.discountType === 'percentage' ? promo.value + '%' : '$' + promo.value}`}
+                      {promo.value && `: ${promo.discountType === 'percentage' ? promo.value + '%' : '₡' + promo.value}`}
                     </div>
                     <div className="flex items-center text-gray-300 text-sm">
                       <span className="mr-2">⏰</span>

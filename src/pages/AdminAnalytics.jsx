@@ -92,7 +92,7 @@ const AdminAnalytics = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">{t('adminAnalytics.revenueMTD')}</p>
-                <h3 className="text-3xl font-bold text-white mt-1">${analytics.revenue}</h3>
+                <h3 className="text-3xl font-bold text-white mt-1">₡{analytics.revenue}</h3>
               </div>
               <div className="text-4xl">💰</div>
             </div>

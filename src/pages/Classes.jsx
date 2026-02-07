@@ -295,7 +295,7 @@ const Classes = () => {
                 </div>
                 <div className="flex items-center text-gray-300 text-sm">
                   <span className="text-lg mr-2">💰</span>
-                  <span>${classItem.price}{t('classes.perMonth')}</span>
+                  <span>₡{classItem.price}{t('classes.perMonth')}</span>
                 </div>
                 <div className="flex items-center text-gray-300 text-sm">
                   <span className="text-lg mr-2">👤</span>

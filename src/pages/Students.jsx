@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import DashboardLayout from '../components/DashboardLayout';
 import AuthContext from '../context/AuthContext';
@@ -17,6 +18,7 @@ const toDisplayValue = (val) => {
 const Students = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -78,7 +80,12 @@ const Students = () => {
         ) : students.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {students.map((student) => (
-              <div key={student._id} className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-purple-500 transition">
+              <button
+                key={student._id}
+                type="button"
+                onClick={() => navigate(`/dashboard/students/${student._id}`)}
+                className="w-full text-left bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-purple-500 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+              >
                 <div className="flex items-center space-x-4 mb-4">
                   <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
                     {(student.name && String(student.name).charAt(0).toUpperCase()) || '?'}
@@ -103,7 +110,7 @@ const Students = () => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         ) : (
@@ -148,7 +155,7 @@ const Students = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm">{t('students.monthlyRevenue')}</p>
-                  <h3 className="text-3xl font-bold text-white mt-1">$-</h3>
+                  <h3 className="text-3xl font-bold text-white mt-1">₡-</h3>
                 </div>
                 <div className="text-4xl">💰</div>
               </div>

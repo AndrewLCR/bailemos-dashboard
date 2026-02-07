@@ -248,7 +248,7 @@ const SettingsPrices = () => {
                   <div>
                     <p className="font-medium text-white">{getTypeLabel(price.type)}</p>
                     <p className="text-gray-400 text-sm">
-                      ${Number(price.monthlyPrice).toFixed(2)} {t('settingsPrices.perMonth')} · {price.classesPerWeek} {t('settingsPrices.perWeekLabel')}
+                      ₡{Number(price.monthlyPrice).toFixed(2)} {t('settingsPrices.perMonth')} · {price.classesPerWeek} {t('settingsPrices.perWeekLabel')}
                     </p>
                   </div>
                 </div>

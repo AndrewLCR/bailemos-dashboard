@@ -133,7 +133,7 @@ const Events = () => {
                 </div>
                 <div className="flex items-center text-gray-300">
                   <span className="text-lg mr-2">💰</span>
-                  <span>${event.coverCharge}</span>
+                  <span>₡{event.coverCharge}</span>
                 </div>
               </div>
             </div>

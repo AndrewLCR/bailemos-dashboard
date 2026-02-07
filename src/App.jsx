@@ -7,6 +7,7 @@ import Events from './pages/Events';
 import Promotions from './pages/Promotions';
 import Classes from './pages/Classes';
 import Students from './pages/Students';
+import StudentDetail from './pages/StudentDetail';
 import AdminUsers from './pages/AdminUsers';
 import AdminAnalytics from './pages/AdminAnalytics';
 import Enrollments from './pages/Enrollments';
@@ -91,7 +92,15 @@ function App() {
                 <PrivateRoute>
                   <Students />
                 </PrivateRoute>
-              } 
+              }
+            />
+            <Route 
+              path="/dashboard/students/:studentId" 
+              element={
+                <PrivateRoute>
+                  <StudentDetail />
+                </PrivateRoute>
+              }
             />
             <Route 
               path="/dashboard/settings/schedule" 
